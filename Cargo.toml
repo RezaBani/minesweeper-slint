@@ -2,9 +2,18 @@
 name = "minesweeper-slint"
 version = "0.1.0"
 edition = "2024"
+default-run = "MineSweeper"
+
+[[bin]]
+name = "MineSweeper"
+path = "src/bin/mine_sweeper_gui.rs"
 
 [dependencies]
-slint = "1.14.1"
+slint = { version = "1.14.1", default-features = false, features = [
+  "backend-winit",
+  "compat-1-2",
+  "renderer-skia"
+] }
 
 [build-dependencies]
 slint-build = "1.14.1"
