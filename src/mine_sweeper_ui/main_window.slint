@@ -1,12 +1,102 @@
+import {
+    Button,
+    VerticalBox,
+    HorizontalBox,
+    StandardButton,
+} from "std-widgets.slint";
+
+export struct Position {
+    row:int,
+    col:int,
+}
+
+export struct Tile {
+    position: Position,
+    value: int, // -1 indicate there is a bomb
+    visible: bool,
+}
+
+export enum GameState {
+    Initial,
+    Normal,
+    Lose,
+    Win
+}
+
 export component MainWindow inherits Window {
-    min-height: 640px;
-    min-width: 640px;
+    // Custom Properties
+    in property <[[Tile]]> buttons_grid;
+    out property <GameState> state: Initial;
+
+    // callbacks
+    callback first_move_occured(position: Position);
+    callback close();
+    callback restart();
+
+    // public functions
+    public pure function bomb(value: int) -> bool {
+        return value == -1;
+    }
+    public pure function button_value_to_text(value: int) -> string {
+        if bomb(value) {
+            return "*";
+        } else if value == 0 {
+            return " ";
+        } else {
+            value
+        }
+    }
+
+    title: "MineSweeper";
     default-font-size: 30px;
-    VerticalLayout {
+    preferred-width: 1280px;
+    preferred-height: 720px;
+
+    if state == GameState.Initial || state == GameState.Normal: VerticalBox {
+        for row[i] in buttons_grid: HorizontalBox {
+            for button[j] in row: Button {
+                text: button.visible ? button_value_to_text(button.value) : "";
+                clicked => {
+                    if root.state == GameState.Initial {
+                        first_move_occured(button.position);
+                        root.state = GameState.Normal;
+                    }
+                    button.visible = true;
+                    self.text = button_value_to_text(button.value);
+                    if bomb(button.value) {
+                        root.state = GameState.Lose;
+                    }
+                }
+            }
+        }
+    }
+    if state == GameState.Lose || state == GameState.Win: VerticalBox {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        spacing: 10px;
         Text {
-            vertical-alignment: center;
             horizontal-alignment: center;
-            text: "Hello World!";
+            vertical-alignment: center;
+            text: state == GameState.Lose ? "Game Over" : "You Won";
+        }
+
+        HorizontalBox {
+            Button {
+                text: "Restart";
+                clicked => {
+                    root.state = GameState.Initial;
+                    root.restart();
+                }
+            }
+
+            Button {
+                text: "Quit";
+                clicked => {
+                    root.close();
+                }
+            }
         }
     }
 }
