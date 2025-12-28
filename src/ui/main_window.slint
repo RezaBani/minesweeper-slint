@@ -5,24 +5,26 @@ import {
     ScrollView,
 } from "std-widgets.slint";
 
-import { Position, Tile, GameState } from "types.slint";
+import { Position, Tile, GameState, GameDifficulty } from "types.slint";
 
 export component MainWindow inherits Window {
     // Custom Properties
     in property <int> mine_value;
     in property <[[Tile]]> grid;
     in property <GameState> state: Initial;
+    in-out property <GameDifficulty> difficulty: GameDifficulty.Medium;
     in-out property <int> flags;
 
     // callbacks
-    callback first_move_occured(position: Position);
-    callback expand_selection(position: Position);
-    callback change_flag(position: Position, flag: bool);
-    callback change_visibility(position: Position, visible: bool);
+    callback first_move_occured(Position);
+    callback expand_selection(Position);
+    callback change_flag(Position, bool);
+    callback change_visibility(Position, bool);
     callback check_win();
     callback restart();
     callback close();
     callback about();
+    callback difficulty_changed();
 
     // public functions
     public pure function tile_to_img(tile: Tile) -> image {
@@ -132,6 +134,51 @@ export component MainWindow inherits Window {
                 vertical-alignment: center;
                 text: root.flags;
                 color: red;
+            }
+
+            easy_btn := Rectangle {
+                background: difficulty == GameDifficulty.Easy ? #95959f : Colors.transparent;
+                Text {
+                    text: "Easy";
+                }
+
+                TouchArea {
+                    enabled: root.state == GameState.Initial;
+                    clicked => {
+                        difficulty = GameDifficulty.Easy;
+                        difficulty_changed();
+                    }
+                }
+            }
+
+            med_btn := Rectangle {
+                background: difficulty == GameDifficulty.Medium ? #95959f : Colors.transparent;
+                Text {
+                    text: "Medium";
+                }
+
+                TouchArea {
+                    enabled: root.state == GameState.Initial;
+                    clicked => {
+                        difficulty = GameDifficulty.Medium;
+                        difficulty_changed();
+                    }
+                }
+            }
+
+            hard_btn := Rectangle {
+                background: difficulty == GameDifficulty.Hard ? #95959f : Colors.transparent;
+                Text {
+                    text: "Hard";
+                }
+
+                TouchArea {
+                    enabled: root.state == GameState.Initial;
+                    clicked => {
+                        difficulty = GameDifficulty.Hard;
+                        difficulty_changed();
+                    }
+                }
             }
 
             Button {

@@ -2,8 +2,9 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use modern_minesweeper::controller::{
-    AboutDialog, GameConfig, GameState, MINE_VALUE, MainWindow, change_flag, change_visibility,
-    check_win, clear_grid, expand_selection, fill_grid, new_grid, vec2d_to_model_grid,
+    AboutDialog, GameConfig, GameDifficulty, GameState, MINE_VALUE, MainWindow, change_flag,
+    change_visibility, check_win, clear_grid, expand_selection, fill_grid, new_grid,
+    vec2d_to_model_grid,
 };
 use slint::ComponentHandle;
 use std::{cell::RefCell, env, rc::Rc};
@@ -15,7 +16,7 @@ fn main() -> Result<(), slint::PlatformError> {
     let main_window = MainWindow::new()?;
 
     // Global Configs
-    let game_config = Rc::new(RefCell::new(GameConfig::default()));
+    let game_config = Rc::new(RefCell::new(GameConfig::new(GameDifficulty::Medium)));
 
     // Empty Grid
     let tiles = Rc::new(RefCell::new(new_grid(&*game_config.borrow())));
@@ -23,7 +24,7 @@ fn main() -> Result<(), slint::PlatformError> {
     main_window.set_grid(model);
     main_window.set_state(GameState::Initial);
     main_window.set_mine_value(MINE_VALUE);
-    main_window.set_flags((*game_config.borrow()).mine_count as i32);
+    main_window.set_flags(game_config.borrow().mine_count as i32);
 
     // First Move Occured
     let main_window_weak = main_window.as_weak();
@@ -98,6 +99,24 @@ fn main() -> Result<(), slint::PlatformError> {
         if check_win(&*game_config_cloned.borrow(), &*tiles_cloned.borrow()) {
             main_window_weak.unwrap().set_state(GameState::Win);
         }
+    });
+
+    // Difficulty Changed
+    let game_config_cloned = game_config.clone();
+    let tiles_cloned = tiles.clone();
+    let main_window_weak = main_window.as_weak();
+    main_window.on_difficulty_changed(move || {
+        game_config_cloned
+            .borrow_mut()
+            .clone_from(&GameConfig::new(main_window_weak.unwrap().get_difficulty()));
+        tiles_cloned
+            .borrow_mut()
+            .clone_from(&new_grid(&*game_config_cloned.borrow()));
+        let model = vec2d_to_model_grid(&*tiles_cloned.borrow());
+        main_window_weak.unwrap().set_grid(model);
+        main_window_weak
+            .unwrap()
+            .set_flags(game_config_cloned.borrow().mine_count as i32);
     });
 
     // About

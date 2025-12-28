@@ -12,12 +12,24 @@ pub struct GameConfig {
     pub mine_count: usize,
 }
 
-impl Default for GameConfig {
-    fn default() -> Self {
-        Self {
-            row_count: 10,
-            col_count: 15,
-            mine_count: 35,
+impl GameConfig {
+    pub fn new(difficulty: GameDifficulty) -> Self {
+        match difficulty {
+            GameDifficulty::Easy => Self {
+                row_count: 8,
+                col_count: 8,
+                mine_count: 10,
+            },
+            GameDifficulty::Medium => Self {
+                row_count: 16,
+                col_count: 16,
+                mine_count: 40,
+            },
+            GameDifficulty::Hard => Self {
+                row_count: 16,
+                col_count: 30,
+                mine_count: 99,
+            },
         }
     }
 }
