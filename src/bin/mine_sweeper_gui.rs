@@ -1,8 +1,8 @@
 use std::{cell::RefCell, env, rc::Rc};
 
-use minesweeper_slint::mine_sweeper_ui::{
-    GameConfig, GameState, MINE_VALUE, MainWindow, check_win, clear_grid, expand_selection,
-    fill_grid, new_grid, vec2d_to_model_grid,
+use modern_minesweeper::mine_sweeper_ui::{
+    AboutDialog, GameConfig, GameState, MINE_VALUE, MainWindow, check_win, clear_grid,
+    expand_selection, fill_grid, new_grid, vec2d_to_model_grid,
 };
 use slint::ComponentHandle;
 
@@ -95,6 +95,17 @@ fn main() -> Result<(), slint::PlatformError> {
     main_window.on_check_win(move || {
         if check_win(&*game_config_cloned.borrow(), &*tiles_cloned.borrow()) {
             main_window_weak.unwrap().set_state(GameState::Win);
+        }
+    });
+
+    // About
+    main_window.on_about(|| {
+        if let Ok(about) = AboutDialog::new() {
+            about.show().unwrap();
+            let about_weak = about.as_weak();
+            about.on_close(move || {
+                about_weak.unwrap().hide().unwrap();
+            });
         }
     });
 

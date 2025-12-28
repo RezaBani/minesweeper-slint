@@ -1,7 +1,15 @@
 [package]
-name = "minesweeper-slint"
+name = "modern-minesweeper"
 version = "0.1.0"
 edition = "2024"
+description = "A Simple minesweeper game built with Rust + Slint"
+repository = "https://github.com/RezaBani/modern-minesweeper"
+license = "MIT OR Apache-2.0"
+keywords = ["gamedev", "graphics"]
+categories = [
+  "game-development",
+  "games",
+]
 default-run = "MineSweeper"
 
 [[bin]]

@@ -1,35 +1,17 @@
-use std::{env, path::PathBuf};
+use std::env;
 
-fn main() {
+use slint_build::CompileError;
+
+fn main() -> Result<(), CompileError> {
     unsafe {
         env::set_var("RUST_BACKTRACE", "1");
     }
-    let input_path = PathBuf::from("./src/mine_sweeper_ui/main_window.slint");
-    let input_path = match input_path.canonicalize() {
-        Ok(p) => p,
-        Err(e) => {
-            panic!("{e}");
-        }
-    };
-    let output_path = PathBuf::from("./src/mine_sweeper_ui/main_window.rs");
-    let output_path = match output_path.canonicalize() {
-        Ok(p) => p,
-        Err(e) => {
-            panic!("{e}");
-        }
-    };
-    let input_files = match slint_build::compile_with_output_path(
-        input_path,
-        output_path,
-        slint_build::CompilerConfiguration::new(),
-    ) {
-        Ok(input_path) => input_path,
-        Err(e) => {
-            panic!("{e}");
-        }
-    };
-    for file in input_files {
-        println!("cargo::rerun-if-changed={}", file.to_string_lossy());
+    let input_files = ["./src/mine_sweeper_ui/main_window.slint"];
+
+    for input_file in input_files {
+        slint_build::compile(input_file)?;
+        println!("cargo::rerun-if-changed={input_file}");
     }
     println!("cargo::rerun-if-changed=Cargo.toml");
+    Ok(())
 }

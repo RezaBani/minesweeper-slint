@@ -4,6 +4,7 @@ import {
     HorizontalBox,
     StandardButton,
     ScrollView,
+    AboutSlint,
 } from "std-widgets.slint";
 
 export struct Position {
@@ -25,6 +26,26 @@ export enum GameState {
     Win
 }
 
+export component AboutDialog inherits Dialog {
+    title: "About Slint";
+    icon: @image-url("resources/icons/info.svg");
+    callback close();
+    VerticalLayout {
+        AboutSlint {
+            vertical-stretch: 1.0;
+        }
+
+        StandardButton {
+            vertical-stretch: 0;
+
+            kind: StandardButtonKind.close;
+            clicked => {
+                root.close();
+            }
+        }
+    }
+}
+
 export component MainWindow inherits Window {
     // Custom Properties
     in property <int> mine_value;
@@ -39,6 +60,7 @@ export component MainWindow inherits Window {
     callback check_win();
     callback restart();
     callback close();
+    callback about();
 
     // public functions
     public pure function tile_to_img(tile: Tile) -> image {
@@ -146,6 +168,15 @@ export component MainWindow inherits Window {
                 text: "Restart";
                 clicked => {
                     root.restart();
+                }
+            }
+
+            Button {
+                icon: @image-url("resources/icons/info.svg");
+                icon-size: 28px;
+                text: "About";
+                clicked => {
+                    about();
                 }
             }
 
