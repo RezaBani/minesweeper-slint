@@ -4,6 +4,8 @@ pub use main_window::*;
 use rand::{self, seq::index::sample_weighted};
 use slint::{Model, ModelRc, VecModel};
 
+pub const MINE_VALUE: i32 = -1;
+
 #[derive(Debug, Clone)]
 pub struct GameConfig {
     row_count: usize,
@@ -16,13 +18,16 @@ impl Default for GameConfig {
         Self {
             row_count: 10,
             col_count: 15,
-            bomb_count: 50,
+            bomb_count: 35,
         }
     }
 }
 
-pub fn new_grid(game_config: &GameConfig) -> Vec<ModelRc<Tile>> {
-    let mut buttons_grid = Vec::new();
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+pub struct GameOver;
+
+pub fn new_grid(game_config: &GameConfig) -> Vec<Vec<Tile>> {
+    let mut tiles = Vec::new();
 
     for row in 0..game_config.row_count {
         let mut row_vec = Vec::new();
@@ -37,12 +42,22 @@ pub fn new_grid(game_config: &GameConfig) -> Vec<ModelRc<Tile>> {
                 flagged: false,
             });
         }
-        buttons_grid.push(VecModel::from_slice(&row_vec));
+        tiles.push(row_vec);
     }
-    buttons_grid
+    tiles
 }
 
-pub fn fill_grid(game_config: &GameConfig, first_move: Position) -> Vec<Vec<Tile>> {
+pub fn clear_grid(tiles: &mut Vec<Vec<Tile>>) {
+    for row in tiles.iter_mut() {
+        for tile in row {
+            tile.flagged = false;
+            tile.visible = false;
+            tile.value = 0;
+        }
+    }
+}
+
+pub fn fill_grid(game_config: &GameConfig, first_move: Position, tiles: &mut Vec<Vec<Tile>>) {
     // Making First Button not be a bomb
     let mut zero_weights = surronding_indicies(game_config, &first_move);
     zero_weights.push(position_to_index(game_config, &first_move));
@@ -63,54 +78,42 @@ pub fn fill_grid(game_config: &GameConfig, first_move: Position) -> Vec<Vec<Tile
         .into_vec();
 
     // Setting The Bombs on the Grid
-    let mut buttons_grid = Vec::new();
-    for row in 0..game_config.row_count {
-        let mut row_vec = Vec::new();
-        for col in 0..game_config.col_count {
-            let position = Position {
-                row: row as i32,
-                col: col as i32,
-            };
+    for row in tiles.iter_mut() {
+        for tile in row {
             let value = match bombs_index
                 .iter()
-                .find(|b| **b == position_to_index(game_config, &position))
+                .find(|b| **b == position_to_index(game_config, &tile.position))
             {
-                Some(_) => -1,
+                Some(_) => MINE_VALUE,
                 None => 0,
             };
-            row_vec.push(Tile {
-                position,
-                value,
-                visible: false,
-                flagged: false,
-            });
+            tile.value = value;
         }
-        buttons_grid.push(row_vec);
     }
 
     // Setting The Numbers
-    for row_vec in &mut buttons_grid {
-        for item in row_vec {
-            if item.value != -1 {
+    for row in tiles.iter_mut() {
+        for tile in row {
+            if tile.value != MINE_VALUE {
                 let mut bombs = 0;
-                let around = surronding_indicies(game_config, &item.position);
-                for tile in around {
-                    if bombs_index.contains(&tile) {
+                let around = surronding_indicies(game_config, &tile.position);
+                for index in around {
+                    if bombs_index.contains(&index) {
                         bombs += 1;
                     }
                 }
-                item.value = bombs;
+                tile.value = bombs;
             }
         }
     }
 
     // Showing clicked Button and Around
-    buttons_grid[first_move.row as usize][first_move.col as usize].visible = true;
-    expand_selection(game_config, &first_move, &mut buttons_grid);
-    buttons_grid
+    tiles[first_move.row as usize][first_move.col as usize].visible = true;
+    let lost = expand_selection(game_config, &first_move, tiles);
+    assert_eq!(lost, None);
 }
 
-pub fn model_grid_to_vec2d(model: ModelRc<ModelRc<Tile>>) -> Vec<Vec<Tile>> {
+pub fn model_grid_to_vec2d<T>(model: ModelRc<ModelRc<T>>) -> Vec<Vec<T>> {
     let model_vec: Vec<_> = model.iter().collect();
 
     let mut tiles_vec = Vec::new();
@@ -121,7 +124,7 @@ pub fn model_grid_to_vec2d(model: ModelRc<ModelRc<Tile>>) -> Vec<Vec<Tile>> {
     tiles_vec
 }
 
-pub fn vec2d_to_model_grid(tiles: Vec<Vec<Tile>>) -> ModelRc<ModelRc<Tile>> {
+pub fn vec2d_to_model_grid(tiles: &Vec<Vec<Tile>>) -> ModelRc<ModelRc<Tile>> {
     let mut grid_model = Vec::new();
     for row in tiles {
         grid_model.push(VecModel::from_slice(&row));
@@ -129,7 +132,12 @@ pub fn vec2d_to_model_grid(tiles: Vec<Vec<Tile>>) -> ModelRc<ModelRc<Tile>> {
     VecModel::from_slice(&grid_model)
 }
 
-pub fn expand_selection(game_config: &GameConfig, position: &Position, tiles: &mut Vec<Vec<Tile>>) {
+#[must_use]
+pub fn expand_selection(
+    game_config: &GameConfig,
+    position: &Position,
+    tiles: &mut Vec<Vec<Tile>>,
+) -> Option<GameOver> {
     if tiles[position.row as usize][position.col as usize].value == 0 {
         let around = surronding_indicies(game_config, position);
         for index in around {
@@ -138,11 +146,54 @@ pub fn expand_selection(game_config: &GameConfig, position: &Position, tiles: &m
             if !tile.flagged && !tile.visible {
                 tile.visible = true;
                 if tile.value == 0 {
-                    expand_selection(game_config, &tile.position.clone(), tiles);
+                    if let Some(_) = expand_selection(game_config, &pos, tiles) {
+                        return Some(GameOver);
+                    }
+                }
+            }
+        }
+    } else {
+        let around = surronding_indicies(game_config, position);
+        let mut flags = 0;
+        for index in around.iter() {
+            let pos = index_to_position(game_config, *index);
+            let tile = &tiles[pos.row as usize][pos.col as usize];
+            if tile.flagged {
+                flags += 1
+            }
+        }
+        let tile = &tiles[position.row as usize][position.col as usize];
+        if flags == tile.value {
+            for index in around.iter() {
+                let pos = index_to_position(game_config, *index);
+                let tile = &mut tiles[pos.row as usize][pos.col as usize];
+                if !tile.flagged && !tile.visible {
+                    tile.visible = true;
+                    if tile.value == MINE_VALUE {
+                        return Some(GameOver);
+                    }
+                    if let Some(_) = expand_selection(game_config, &pos, tiles) {
+                        return Some(GameOver);
+                    }
                 }
             }
         }
     }
+    return None;
+}
+
+pub fn check_win(game_config: &GameConfig, tiles: &Vec<Vec<Tile>>) -> bool {
+    let mut flags = 0;
+    for row in tiles {
+        for tile in row {
+            if tile.flagged {
+                flags += 1;
+            } else if !tile.flagged && !tile.visible {
+                return false;
+            }
+        }
+    }
+    game_config.bomb_count == flags as usize
 }
 
 #[inline]

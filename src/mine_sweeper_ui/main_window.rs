@@ -1827,7 +1827,7 @@ mod slint_generatedMainWindow {
              }
          }
      # [derive (sp :: FieldOffsets , Default)] # [const_field_offset (sp :: const_field_offset)] # [repr (C)] # [pin_drop] pub struct InnerMainWindow {
-         r#root_15 : sp :: r#WindowItem , r#scroll_17 : sp :: r#Empty , r#flickable_18 : sp :: r#Flickable , r#flickable_viewport_19 : sp :: r#Empty , r#vertical_bar_visibility_27 : sp :: r#Clip , r#vertical_bar_28 : sp :: r#BasicBorderRectangle , r#vertical_bar_clip_29 : sp :: r#Clip , r#thumb_30 : sp :: r#BasicBorderRectangle , r#touch_area_31 : sp :: r#TouchArea , r#up_scroll_button_Opacity_32 : sp :: r#Opacity , r#up_scroll_button_33 : sp :: r#TouchArea , r#icon_Opacity_34 : sp :: r#Opacity , r#icon_35 : sp :: r#ImageItem , r#down_scroll_button_Opacity_36 : sp :: r#Opacity , r#down_scroll_button_37 : sp :: r#TouchArea , r#icon_Opacity_38 : sp :: r#Opacity , r#icon_39 : sp :: r#ImageItem , r#horizontal_bar_visibility_40 : sp :: r#Clip , r#horizontal_bar_41 : sp :: r#BasicBorderRectangle , r#horizontal_bar_clip_42 : sp :: r#Clip , r#thumb_43 : sp :: r#BasicBorderRectangle , r#touch_area_44 : sp :: r#TouchArea , r#up_scroll_button_Opacity_45 : sp :: r#Opacity , r#up_scroll_button_46 : sp :: r#TouchArea , r#icon_Opacity_47 : sp :: r#Opacity , r#icon_48 : sp :: r#ImageItem , r#down_scroll_button_Opacity_49 : sp :: r#Opacity , r#down_scroll_button_50 : sp :: r#TouchArea , r#icon_Opacity_51 : sp :: r#Opacity , r#icon_52 : sp :: r#ImageItem , r#empty_53 : sp :: r#Empty , r#text_54 : sp :: r#SimpleText , r#button_55 : InnerButton_root_3 , r#button_56 : InnerButton_root_3 , r#root_15_buttons_grid : sp :: Property < sp :: ModelRc < sp :: ModelRc < r#Tile > > > , r#root_15_down_scroll_button_37_state : sp :: Property < i32 > , r#root_15_down_scroll_button_50_state : sp :: Property < i32 > , r#root_15_empty_16_layout_cache : sp :: Property < sp :: SharedVector < sp :: Coord , > > , r#root_15_empty_16_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_16_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_20_layout_cache : sp :: Property < sp :: SharedVector < sp :: Coord , > > , r#root_15_empty_20_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_20_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_20_width : sp :: Property < sp :: LogicalLength > , r#root_15_empty_53_layout_cache : sp :: Property < sp :: SharedVector < sp :: Coord , > > , r#root_15_empty_53_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_53_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_flickable_18_height : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_horizontal_stretch : sp :: Property < f32 > , r#root_15_flickable_18_max_height : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_max_width : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_min_height : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_min_width : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_preferred_height : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_preferred_width : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_vertical_stretch : sp :: Property < f32 > , r#root_15_flickable_18_width : sp :: Property < sp :: LogicalLength > , r#root_15_horizontal_bar_41_maximum : sp :: Property < sp :: LogicalLength > , r#root_15_horizontal_bar_41_policy : sp :: Property < sp :: r#ScrollBarPolicy > , r#root_15_horizontal_bar_41_size : sp :: Property < sp :: LogicalLength > , r#root_15_horizontal_bar_41_state : sp :: Property < i32 > , r#root_15_horizontal_bar_41_visible : sp :: Property < bool > , r#root_15_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_mine_value : sp :: Property < i32 > , r#root_15_scroll_17_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_scroll_17_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_scroll_17_vertical_scrollbar_policy : sp :: Property < sp :: r#ScrollBarPolicy > , r#root_15_state : sp :: Property < r#GameState > , r#root_15_thumb_30_height : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_30_width : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_30_y : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_43_height : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_43_width : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_43_x : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_31_pressed_value : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_31_saved_maximum : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_31_saved_x : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_31_saved_y : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_44_pressed_value : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_44_saved_maximum : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_44_saved_x : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_44_saved_y : sp :: Property < sp :: LogicalLength > , r#root_15_up_scroll_button_33_state : sp :: Property < i32 > , r#root_15_up_scroll_button_46_state : sp :: Property < i32 > , r#root_15_vertical_bar_28_maximum : sp :: Property < sp :: LogicalLength > , r#root_15_vertical_bar_28_size : sp :: Property < sp :: LogicalLength > , r#root_15_vertical_bar_28_state : sp :: Property < i32 > , r#root_15_vertical_bar_28_visible : sp :: Property < bool > , r#root_15_close : sp :: Callback < () , () > , r#root_15_expand_selection : sp :: Callback < (r#Position ,) , () > , r#root_15_first_move_occured : sp :: Callback < (r#Position ,) , () > , r#root_15_horizontal_bar_41_scrolled : sp :: Callback < () , () > , r#root_15_restart : sp :: Callback < () , () > , r#root_15_vertical_bar_28_scrolled : sp :: Callback < () , () > , repeater0 : sp :: Repeater < InnerComponent_empty_21 > , self_weak : sp :: OnceCell < sp :: VWeakMapped < sp :: ItemTreeVTable , InnerMainWindow >> , globals : sp :: OnceCell < sp :: Rc < SharedGlobals >> , tree_index : :: core :: cell :: Cell < u32 > , tree_index_of_first_child : :: core :: cell :: Cell < u32 > , }
+         r#root_15 : sp :: r#WindowItem , r#scroll_17 : sp :: r#Empty , r#flickable_18 : sp :: r#Flickable , r#flickable_viewport_19 : sp :: r#Empty , r#vertical_bar_visibility_27 : sp :: r#Clip , r#vertical_bar_28 : sp :: r#BasicBorderRectangle , r#vertical_bar_clip_29 : sp :: r#Clip , r#thumb_30 : sp :: r#BasicBorderRectangle , r#touch_area_31 : sp :: r#TouchArea , r#up_scroll_button_Opacity_32 : sp :: r#Opacity , r#up_scroll_button_33 : sp :: r#TouchArea , r#icon_Opacity_34 : sp :: r#Opacity , r#icon_35 : sp :: r#ImageItem , r#down_scroll_button_Opacity_36 : sp :: r#Opacity , r#down_scroll_button_37 : sp :: r#TouchArea , r#icon_Opacity_38 : sp :: r#Opacity , r#icon_39 : sp :: r#ImageItem , r#horizontal_bar_visibility_40 : sp :: r#Clip , r#horizontal_bar_41 : sp :: r#BasicBorderRectangle , r#horizontal_bar_clip_42 : sp :: r#Clip , r#thumb_43 : sp :: r#BasicBorderRectangle , r#touch_area_44 : sp :: r#TouchArea , r#up_scroll_button_Opacity_45 : sp :: r#Opacity , r#up_scroll_button_46 : sp :: r#TouchArea , r#icon_Opacity_47 : sp :: r#Opacity , r#icon_48 : sp :: r#ImageItem , r#down_scroll_button_Opacity_49 : sp :: r#Opacity , r#down_scroll_button_50 : sp :: r#TouchArea , r#icon_Opacity_51 : sp :: r#Opacity , r#icon_52 : sp :: r#ImageItem , r#empty_53 : sp :: r#Empty , r#text_54 : sp :: r#SimpleText , r#button_55 : InnerButton_root_3 , r#button_56 : InnerButton_root_3 , r#root_15_down_scroll_button_37_state : sp :: Property < i32 > , r#root_15_down_scroll_button_50_state : sp :: Property < i32 > , r#root_15_empty_16_layout_cache : sp :: Property < sp :: SharedVector < sp :: Coord , > > , r#root_15_empty_16_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_16_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_20_layout_cache : sp :: Property < sp :: SharedVector < sp :: Coord , > > , r#root_15_empty_20_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_20_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_20_width : sp :: Property < sp :: LogicalLength > , r#root_15_empty_53_layout_cache : sp :: Property < sp :: SharedVector < sp :: Coord , > > , r#root_15_empty_53_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_empty_53_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_flickable_18_height : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_horizontal_stretch : sp :: Property < f32 > , r#root_15_flickable_18_max_height : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_max_width : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_min_height : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_min_width : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_preferred_height : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_preferred_width : sp :: Property < sp :: LogicalLength > , r#root_15_flickable_18_vertical_stretch : sp :: Property < f32 > , r#root_15_flickable_18_width : sp :: Property < sp :: LogicalLength > , r#root_15_grid : sp :: Property < sp :: ModelRc < sp :: ModelRc < r#Tile > > > , r#root_15_horizontal_bar_41_maximum : sp :: Property < sp :: LogicalLength > , r#root_15_horizontal_bar_41_policy : sp :: Property < sp :: r#ScrollBarPolicy > , r#root_15_horizontal_bar_41_size : sp :: Property < sp :: LogicalLength > , r#root_15_horizontal_bar_41_state : sp :: Property < i32 > , r#root_15_horizontal_bar_41_visible : sp :: Property < bool > , r#root_15_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_mine_value : sp :: Property < i32 > , r#root_15_scroll_17_layoutinfo_h : sp :: Property < sp :: LayoutInfo > , r#root_15_scroll_17_layoutinfo_v : sp :: Property < sp :: LayoutInfo > , r#root_15_scroll_17_vertical_scrollbar_policy : sp :: Property < sp :: r#ScrollBarPolicy > , r#root_15_state : sp :: Property < r#GameState > , r#root_15_thumb_30_height : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_30_width : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_30_y : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_43_height : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_43_width : sp :: Property < sp :: LogicalLength > , r#root_15_thumb_43_x : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_31_pressed_value : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_31_saved_maximum : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_31_saved_x : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_31_saved_y : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_44_pressed_value : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_44_saved_maximum : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_44_saved_x : sp :: Property < sp :: LogicalLength > , r#root_15_touch_area_44_saved_y : sp :: Property < sp :: LogicalLength > , r#root_15_up_scroll_button_33_state : sp :: Property < i32 > , r#root_15_up_scroll_button_46_state : sp :: Property < i32 > , r#root_15_vertical_bar_28_maximum : sp :: Property < sp :: LogicalLength > , r#root_15_vertical_bar_28_size : sp :: Property < sp :: LogicalLength > , r#root_15_vertical_bar_28_state : sp :: Property < i32 > , r#root_15_vertical_bar_28_visible : sp :: Property < bool > , r#root_15_change_flag : sp :: Callback < (r#Position , bool ,) , () > , r#root_15_change_visibility : sp :: Callback < (r#Position , bool ,) , () > , r#root_15_check_win : sp :: Callback < () , () > , r#root_15_close : sp :: Callback < () , () > , r#root_15_expand_selection : sp :: Callback < (r#Position ,) , () > , r#root_15_first_move_occured : sp :: Callback < (r#Position ,) , () > , r#root_15_horizontal_bar_41_scrolled : sp :: Callback < () , () > , r#root_15_restart : sp :: Callback < () , () > , r#root_15_vertical_bar_28_scrolled : sp :: Callback < () , () > , repeater0 : sp :: Repeater < InnerComponent_empty_21 > , self_weak : sp :: OnceCell < sp :: VWeakMapped < sp :: ItemTreeVTable , InnerMainWindow >> , globals : sp :: OnceCell < sp :: Rc < SharedGlobals >> , tree_index : :: core :: cell :: Cell < u32 > , tree_index_of_first_child : :: core :: cell :: Cell < u32 > , }
      impl InnerMainWindow {
          fn init (self_rc : sp :: VRcMapped < sp :: ItemTreeVTable , Self > , globals : sp :: Rc < SharedGlobals > , tree_index : u32 , tree_index_of_first_child : u32) {
              # ! [allow (unused)] let _self = self_rc . as_pin_ref () ;
@@ -1841,7 +1841,7 @@ mod slint_generatedMainWindow {
                      let self_rc = self_weak . upgrade () . unwrap () ;
                      let _self = self_rc . as_pin_ref () ;
                      (({
-                         * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_buttons_grid }
+                         * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_grid }
                     ) . apply_pin (_self) . get ()) as _ }
                  }
             ) ;
@@ -2556,11 +2556,6 @@ mod slint_generatedMainWindow {
                     ) . apply_pin (_self) . get ())))) as _ }
                 ) ;
                  }
-             ({
-                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_mine_value }
-            ) . apply_pin (_self) . set ({
-                 (((- 1f64) as i32)) as i32 }
-            ) ;
              {
                  slint :: private_unstable_api :: set_property_binding (({
                      * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_scroll_17_layoutinfo_h }
@@ -4017,9 +4012,6 @@ mod slint_generatedMainWindow {
                          let _self = self_rc . as_pin_ref () ;
                          ({
                              ({
-                                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_state }
-                            ) . apply_pin (_self) . set (r#GameState :: r#Initial as _) ;
-                             ({
                                  * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_restart }
                             ) . apply_pin (_self) . call (& ()) }
                         ) ;
@@ -5209,7 +5201,15 @@ mod slint_generatedMainWindow {
                                                      the_struct . r#visible = (r#struct_assignment0 . clone ()) . r#visible as _ ;
                                                      the_struct }
                                                  }
-                                             as _) }
+                                             as _) ;
+                                             {
+                                                 let _ = (_self . parent . upgrade () . and_then (| x | x . parent . upgrade ()) . as_ref () . map (| x | (InnerMainWindow :: FIELD_OFFSETS . r#root_15_change_flag) . apply_pin (x . as_pin_ref ()))) . map (| x | x . call (& ((({
+                                                     * & InnerComponent_rectangle_22 :: FIELD_OFFSETS . r#model_data }
+                                                ) . apply_pin (_self) . get ()) . r#position as _ , (({
+                                                     * & InnerComponent_rectangle_22 :: FIELD_OFFSETS . r#model_data }
+                                                ) . apply_pin (_self) . get ()) . r#flagged as _ ,))) ;
+                                                 }
+                                             }
                                         ) ;
                                          }
                                      else {
@@ -5235,13 +5235,25 @@ mod slint_generatedMainWindow {
                                                          the_struct . r#visible = (r#struct_assignment1 . clone ()) . r#visible as _ ;
                                                          the_struct }
                                                      }
-                                                 as _) }
+                                                 as _) ;
+                                                 {
+                                                     let _ = (_self . parent . upgrade () . and_then (| x | x . parent . upgrade ()) . as_ref () . map (| x | (InnerMainWindow :: FIELD_OFFSETS . r#root_15_change_flag) . apply_pin (x . as_pin_ref ()))) . map (| x | x . call (& ((({
+                                                         * & InnerComponent_rectangle_22 :: FIELD_OFFSETS . r#model_data }
+                                                    ) . apply_pin (_self) . get ()) . r#position as _ , (({
+                                                         * & InnerComponent_rectangle_22 :: FIELD_OFFSETS . r#model_data }
+                                                    ) . apply_pin (_self) . get ()) . r#flagged as _ ,))) ;
+                                                     }
+                                                 }
                                             ) ;
                                              }
                                          else {
                                              {
                                                  }
                                              }
+                                         }
+                                     ;
+                                     {
+                                         let _ = (_self . parent . upgrade () . and_then (| x | x . parent . upgrade ()) . as_ref () . map (| x | (InnerMainWindow :: FIELD_OFFSETS . r#root_15_check_win) . apply_pin (x . as_pin_ref ()))) . map (| x | x . call (& ())) ;
                                          }
                                      }
                                 ) ;
@@ -5269,7 +5281,15 @@ mod slint_generatedMainWindow {
                                                          the_struct . r#visible = (r#struct_assignment2 . clone ()) . r#visible as _ ;
                                                          the_struct }
                                                      }
-                                                 as _) }
+                                                 as _) ;
+                                                 {
+                                                     let _ = (_self . parent . upgrade () . and_then (| x | x . parent . upgrade ()) . as_ref () . map (| x | (InnerMainWindow :: FIELD_OFFSETS . r#root_15_change_flag) . apply_pin (x . as_pin_ref ()))) . map (| x | x . call (& ((({
+                                                         * & InnerComponent_rectangle_22 :: FIELD_OFFSETS . r#model_data }
+                                                    ) . apply_pin (_self) . get ()) . r#position as _ , (({
+                                                         * & InnerComponent_rectangle_22 :: FIELD_OFFSETS . r#model_data }
+                                                    ) . apply_pin (_self) . get ()) . r#flagged as _ ,))) ;
+                                                     }
+                                                 }
                                             ) ;
                                              }
                                          else {
@@ -5280,10 +5300,6 @@ mod slint_generatedMainWindow {
                                                              let _ = (_self . parent . upgrade () . and_then (| x | x . parent . upgrade ()) . as_ref () . map (| x | (InnerMainWindow :: FIELD_OFFSETS . r#root_15_first_move_occured) . apply_pin (x . as_pin_ref ()))) . map (| x | x . call (& ((({
                                                                  * & InnerComponent_rectangle_22 :: FIELD_OFFSETS . r#model_data }
                                                             ) . apply_pin (_self) . get ()) . r#position as _ ,))) ;
-                                                             }
-                                                         ;
-                                                         {
-                                                             let _ = (_self . parent . upgrade () . and_then (| x | x . parent . upgrade ()) . as_ref () . map (| x | (InnerMainWindow :: FIELD_OFFSETS . r#root_15_state) . apply_pin (x . as_pin_ref ()))) . map (| x | x . set (r#GameState :: r#Normal as _)) ;
                                                              }
                                                          }
                                                     ) ;
@@ -5310,19 +5326,10 @@ mod slint_generatedMainWindow {
                                                          the_struct }
                                                      }
                                                  as _) ;
-                                                 if sp :: ApproxEq :: < f64 > :: approx_eq (& ((({
-                                                     * & InnerComponent_rectangle_22 :: FIELD_OFFSETS . r#model_data }
-                                                ) . apply_pin (_self) . get ()) . r#value as f64) , & ((- 1f64) as i32 as f64)) {
-                                                     ({
-                                                         {
-                                                             let _ = (_self . parent . upgrade () . and_then (| x | x . parent . upgrade ()) . as_ref () . map (| x | (InnerMainWindow :: FIELD_OFFSETS . r#root_15_state) . apply_pin (x . as_pin_ref ()))) . map (| x | x . set (r#GameState :: r#Lose as _)) ;
-                                                             }
-                                                         }
-                                                    ) ;
-                                                     }
-                                                 else {
-                                                     {
-                                                         }
+                                                 {
+                                                     let _ = (_self . parent . upgrade () . and_then (| x | x . parent . upgrade ()) . as_ref () . map (| x | (InnerMainWindow :: FIELD_OFFSETS . r#root_15_change_visibility) . apply_pin (x . as_pin_ref ()))) . map (| x | x . call (& ((({
+                                                         * & InnerComponent_rectangle_22 :: FIELD_OFFSETS . r#model_data }
+                                                    ) . apply_pin (_self) . get ()) . r#position as _ , true as _ ,))) ;
                                                      }
                                                  ;
                                                  {
@@ -5331,6 +5338,10 @@ mod slint_generatedMainWindow {
                                                     ) . apply_pin (_self) . get ()) . r#position as _ ,))) ;
                                                      }
                                                  }
+                                             }
+                                         ;
+                                         {
+                                             let _ = (_self . parent . upgrade () . and_then (| x | x . parent . upgrade ()) . as_ref () . map (| x | (InnerMainWindow :: FIELD_OFFSETS . r#root_15_check_win) . apply_pin (x . as_pin_ref ()))) . map (| x | x . call (& ())) ;
                                              }
                                          }
                                     ) ;
@@ -6041,16 +6052,36 @@ mod slint_generatedMainWindow {
              inner . globals . get () . unwrap () . window_adapter_ref () ? ;
              InnerMainWindow :: user_init (sp :: VRc :: map (inner . clone () , | x | x)) ;
              :: core :: result :: Result :: Ok (Self (inner)) }
-         # [allow (dead_code)] pub fn get_buttons_grid (& self) -> sp :: ModelRc < sp :: ModelRc < r#Tile > > {
-             # [allow (unused_imports)] let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+         # [allow (dead_code)] pub fn invoke_change_flag (& self , arg_0 : r#Position , arg_1 : bool ,) -> () {
+             let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
              ({
-                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_buttons_grid }
-            ) . apply_pin (_self) . get () }
-         # [allow (dead_code)] pub fn set_buttons_grid (& self , value : sp :: ModelRc < sp :: ModelRc < r#Tile > >) {
-             # [allow (unused_imports)] let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_change_flag }
+            ) . apply_pin (_self) . call (& (arg_0 , arg_1 ,)) }
+         # [allow (dead_code)] pub fn on_change_flag (& self , mut f : impl FnMut (r#Position , bool) -> () + 'static) {
+             let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+             # [allow (unused)] ({
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_change_flag }
+            ) . apply_pin (_self) . set_handler (move | args | f (args . 0 . clone () , args . 1 . clone ())) }
+         # [allow (dead_code)] pub fn invoke_change_visibility (& self , arg_0 : r#Position , arg_1 : bool ,) -> () {
+             let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
              ({
-                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_buttons_grid }
-            ) . apply_pin (_self) . set (value as _) }
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_change_visibility }
+            ) . apply_pin (_self) . call (& (arg_0 , arg_1 ,)) }
+         # [allow (dead_code)] pub fn on_change_visibility (& self , mut f : impl FnMut (r#Position , bool) -> () + 'static) {
+             let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+             # [allow (unused)] ({
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_change_visibility }
+            ) . apply_pin (_self) . set_handler (move | args | f (args . 0 . clone () , args . 1 . clone ())) }
+         # [allow (dead_code)] pub fn invoke_check_win (& self ,) -> () {
+             let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+             ({
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_check_win }
+            ) . apply_pin (_self) . call (& ()) }
+         # [allow (dead_code)] pub fn on_check_win (& self , mut f : impl FnMut () -> () + 'static) {
+             let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+             # [allow (unused)] ({
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_check_win }
+            ) . apply_pin (_self) . set_handler (move | args | f ()) }
          # [allow (dead_code)] pub fn invoke_close (& self ,) -> () {
              let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
              ({
@@ -6081,13 +6112,26 @@ mod slint_generatedMainWindow {
              # [allow (unused)] ({
                  * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_first_move_occured }
             ) . apply_pin (_self) . set_handler (move | args | f (args . 0 . clone ())) }
+         # [allow (dead_code)] pub fn get_grid (& self) -> sp :: ModelRc < sp :: ModelRc < r#Tile > > {
+             # [allow (unused_imports)] let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+             ({
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_grid }
+            ) . apply_pin (_self) . get () }
+         # [allow (dead_code)] pub fn set_grid (& self , value : sp :: ModelRc < sp :: ModelRc < r#Tile > >) {
+             # [allow (unused_imports)] let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+             ({
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_grid }
+            ) . apply_pin (_self) . set (value as _) }
          # [allow (dead_code)] pub fn get_mine_value (& self) -> i32 {
              # [allow (unused_imports)] let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
              ({
                  * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_mine_value }
             ) . apply_pin (_self) . get () }
-         # [allow (dead_code)] fn set_mine_value (& self , _read_only_property : ()) {
-             }
+         # [allow (dead_code)] pub fn set_mine_value (& self , value : i32) {
+             # [allow (unused_imports)] let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+             ({
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_mine_value }
+            ) . apply_pin (_self) . set (value as _) }
          # [allow (dead_code)] pub fn invoke_restart (& self ,) -> () {
              let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
              ({
@@ -6103,8 +6147,11 @@ mod slint_generatedMainWindow {
              ({
                  * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_state }
             ) . apply_pin (_self) . get () }
-         # [allow (dead_code)] fn set_state (& self , _read_only_property : ()) {
-             }
+         # [allow (dead_code)] pub fn set_state (& self , value : r#GameState) {
+             # [allow (unused_imports)] let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
+             ({
+                 * & InnerMainWindow :: FIELD_OFFSETS . r#root_15_state }
+            ) . apply_pin (_self) . set (value as _) }
          # [allow (dead_code)] pub fn invoke_tile_to_img (& self , arg_0 : r#Tile ,) -> sp :: Image {
              let _self = sp :: VRc :: as_pin_ref (& self . 0) ;
              _self . r#fn_tile_to_img (arg_0 ,) }

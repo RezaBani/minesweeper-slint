@@ -27,13 +27,16 @@ export enum GameState {
 
 export component MainWindow inherits Window {
     // Custom Properties
-    out property <int> mine_value: -1;
-    in property <[[Tile]]> buttons_grid;
-    out property <GameState> state: Initial;
+    in property <int> mine_value;
+    in property <[[Tile]]> grid;
+    in property <GameState> state: Initial;
 
     // callbacks
     callback first_move_occured(position: Position);
     callback expand_selection(position: Position);
+    callback change_flag(position: Position, flag: bool);
+    callback change_visibility(position: Position, visible: bool);
+    callback check_win();
     callback restart();
     callback close();
 
@@ -81,7 +84,7 @@ export component MainWindow inherits Window {
             enabled: root.state == GameState.Initial || root.state == GameState.Normal;
             VerticalLayout {
                 alignment: center;
-                for row[i] in buttons_grid: HorizontalLayout {
+                for row[i] in grid: HorizontalLayout {
                     alignment: center;
                     for button[j] in row: Rectangle {
                         height: btn_img.height;
@@ -98,23 +101,25 @@ export component MainWindow inherits Window {
                                 if event.button == PointerEventButton.right && event.kind == PointerEventKind.up {
                                     if !button.visible && !button.flagged {
                                         button.flagged = true;
+                                        change_flag(button.position,button.flagged);
                                     } else if !button.visible && button.flagged {
                                         button.flagged = false;
+                                        change_flag(button.position,button.flagged);
                                     }
+                                    check_win()
                                 } else if event.button == PointerEventButton.left && event.kind == PointerEventKind.up {
                                     if button.flagged {
                                         button.flagged = false;
+                                        change_flag(button.position,button.flagged);
                                     } else {
                                         if root.state == GameState.Initial {
                                             first_move_occured(button.position);
-                                            root.state = GameState.Normal;
                                         }
                                         button.visible = true;
-                                        if button.value == mine_value {
-                                            root.state = GameState.Lose;
-                                        }
+                                        change_visibility(button.position, true);
                                         expand_selection(button.position);
                                     }
+                                    check_win()
                                 }
                             }
                         }
@@ -140,7 +145,6 @@ export component MainWindow inherits Window {
                 icon-size: 28px;
                 text: "Restart";
                 clicked => {
-                    root.state = GameState.Initial;
                     root.restart();
                 }
             }

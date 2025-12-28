@@ -1,10 +1,10 @@
 use std::{cell::RefCell, env, rc::Rc};
 
 use minesweeper_slint::mine_sweeper_ui::{
-    GameConfig, MainWindow, expand_selection, fill_grid, model_grid_to_vec2d, new_grid,
-    vec2d_to_model_grid,
+    GameConfig, GameState, MINE_VALUE, MainWindow, check_win, clear_grid, expand_selection,
+    fill_grid, new_grid, vec2d_to_model_grid,
 };
-use slint::{ComponentHandle, VecModel};
+use slint::ComponentHandle;
 
 fn main() -> Result<(), slint::PlatformError> {
     unsafe {
@@ -16,17 +16,25 @@ fn main() -> Result<(), slint::PlatformError> {
     let game_config = Rc::new(RefCell::new(GameConfig::default()));
 
     // Empty Grid
-    let empty_grid = new_grid(&*game_config.borrow());
-    let empty_grid_model = VecModel::from_slice(&empty_grid);
-    main_window.set_buttons_grid(empty_grid_model);
+    let tiles = Rc::new(RefCell::new(new_grid(&*game_config.borrow())));
+    let model = vec2d_to_model_grid(&*tiles.borrow());
+    main_window.set_grid(model);
+    main_window.set_state(GameState::Initial);
+    main_window.set_mine_value(MINE_VALUE);
 
     // First Move Occured
     let main_window_weak = main_window.as_weak();
     let game_config_cloned = game_config.clone();
+    let tiles_cloned = tiles.clone();
     main_window.on_first_move_occured(move |position| {
-        let tiles = fill_grid(&*game_config_cloned.borrow(), position);
-        let model = vec2d_to_model_grid(tiles);
-        main_window_weak.unwrap().set_buttons_grid(model);
+        fill_grid(
+            &*game_config_cloned.borrow(),
+            position,
+            &mut *tiles_cloned.borrow_mut(),
+        );
+        let model = vec2d_to_model_grid(&*tiles_cloned.borrow());
+        main_window_weak.unwrap().set_grid(model);
+        main_window_weak.unwrap().set_state(GameState::Normal);
     });
 
     // Quit Button
@@ -37,22 +45,57 @@ fn main() -> Result<(), slint::PlatformError> {
 
     // Restart Button
     let main_window_weak = main_window.as_weak();
-    let game_config_cloned = game_config.clone();
+    let tiles_cloned = tiles.clone();
     main_window.on_restart(move || {
-        let empty_grid = new_grid(&*game_config_cloned.borrow());
-        let empty_grid_model = VecModel::from_slice(&empty_grid);
-        main_window_weak.unwrap().set_buttons_grid(empty_grid_model);
+        clear_grid(&mut *tiles_cloned.borrow_mut());
+        let model = vec2d_to_model_grid(&*tiles_cloned.borrow());
+        main_window_weak.unwrap().set_grid(model);
+        main_window_weak.unwrap().set_state(GameState::Initial);
     });
 
     // Expand Selection
     let main_window_weak = main_window.as_weak();
     let game_config_cloned = game_config.clone();
+    let tiles_cloned = tiles.clone();
     main_window.on_expand_selection(move |position| {
-        let model = main_window_weak.unwrap().get_buttons_grid();
-        let mut tiles = model_grid_to_vec2d(model);
-        expand_selection(&*game_config_cloned.borrow(), &position, &mut tiles);
-        let model = vec2d_to_model_grid(tiles);
-        main_window_weak.unwrap().set_buttons_grid(model);
+        if let Some(_) = expand_selection(
+            &*game_config_cloned.borrow(),
+            &position,
+            &mut *tiles_cloned.borrow_mut(),
+        ) {
+            main_window_weak.unwrap().set_state(GameState::Lose);
+        }
+        let model = vec2d_to_model_grid(&*tiles_cloned.borrow());
+        main_window_weak.unwrap().set_grid(model);
+    });
+
+    // Change Flag
+    let tiles_cloned = tiles.clone();
+    main_window.on_change_flag(move |position, flag| {
+        let tiles_mut = &mut *tiles_cloned.borrow_mut();
+        tiles_mut[position.row as usize][position.col as usize].flagged = flag;
+    });
+
+    // Change Visibility
+    let tiles_cloned = tiles.clone();
+    let main_window_weak = main_window.as_weak();
+    main_window.on_change_visibility(move |position, visible| {
+        let tiles_mut = &mut *tiles_cloned.borrow_mut();
+        let tile = &mut tiles_mut[position.row as usize][position.col as usize];
+        tile.visible = visible;
+        if tile.value == -1 {
+            main_window_weak.unwrap().set_state(GameState::Lose);
+        }
+    });
+
+    // Win Condition
+    let game_config_cloned = game_config.clone();
+    let tiles_cloned = tiles.clone();
+    let main_window_weak = main_window.as_weak();
+    main_window.on_check_win(move || {
+        if check_win(&*game_config_cloned.borrow(), &*tiles_cloned.borrow()) {
+            main_window_weak.unwrap().set_state(GameState::Win);
+        }
     });
 
     main_window.run()
