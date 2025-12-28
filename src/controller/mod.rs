@@ -34,7 +34,7 @@ impl GameConfig {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Default)]
 pub struct GameOver;
 
 pub fn new_grid(game_config: &GameConfig) -> Vec<Vec<Tile>> {

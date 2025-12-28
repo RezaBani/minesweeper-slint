@@ -87,22 +87,23 @@ export component MainWindow inherits Window {
                                 if event.button == PointerEventButton.right && event.kind == PointerEventKind.up {
                                     if !button.visible && !button.flagged {
                                         button.flagged = true;
-                                        flags -= 1;
+                                        root.flags -= 1;
                                         change_flag(button.position,button.flagged);
                                     } else if !button.visible && button.flagged {
                                         button.flagged = false;
-                                        flags += 1;
+                                        root.flags += 1;
                                         change_flag(button.position,button.flagged);
                                     }
                                     check_win()
                                 } else if event.button == PointerEventButton.left && event.kind == PointerEventKind.up {
                                     if button.flagged {
                                         button.flagged = false;
-                                        flags -= 1;
+                                        root.flags += 1;
                                         change_flag(button.position,button.flagged);
                                     } else {
                                         if root.state == GameState.Initial {
                                             first_move_occured(button.position);
+                                            timer.time_elapsed = 0;
                                         }
                                         button.visible = true;
                                         change_visibility(button.position, true);
@@ -123,16 +124,25 @@ export component MainWindow inherits Window {
             padding-left: 10px;
             padding-right: 10px;
             spacing: 10px;
-            state_text := Text {
+            timer := Timer {
+                property <duration> time_elapsed;
+                interval: 1s;
+                running: root.state == GameState.Normal ? true : false;
+                triggered() => {
+                    time_elapsed += 1s;
+                }
+            }
+
+            timer_text := Text {
                 horizontal-alignment: center;
                 vertical-alignment: center;
-                text: state == GameState.Lose ? "State: Game Over" : state == GameState.Win ? "State: You Won" : "State: Normal";
+                text: "Time: \{timer.time_elapsed / 1s} sec";
             }
 
             Text {
                 horizontal-alignment: left;
                 vertical-alignment: center;
-                text: root.flags;
+                text: "Flags: \{root.flags}";
                 color: red;
             }
 
@@ -142,7 +152,7 @@ export component MainWindow inherits Window {
                 border-color: difficulty == GameDifficulty.Easy ? #95959f : Colors.transparent;
                 Text {
                     text: "Easy";
-                    color: easy_btn_area.enabled ? state_text.color : #95959f;
+                    color: easy_btn_area.enabled ? timer_text.color : #95959f;
                 }
 
                 easy_btn_area := TouchArea {
@@ -160,7 +170,7 @@ export component MainWindow inherits Window {
                 border-color: difficulty == GameDifficulty.Medium ? #95959f : Colors.transparent;
                 Text {
                     text: "Medium";
-                    color: med_btn_area.enabled ? state_text.color : #95959f;
+                    color: med_btn_area.enabled ? timer_text.color : #95959f;
                 }
 
                 med_btn_area := TouchArea {
@@ -178,7 +188,7 @@ export component MainWindow inherits Window {
                 border-color: difficulty == GameDifficulty.Hard ? #95959f : Colors.transparent;
                 Text {
                     text: "Hard";
-                    color: hard_btn_area.enabled ? state_text.color : #95959f;
+                    color: hard_btn_area.enabled ? timer_text.color : #95959f;
                 }
 
                 hard_btn_area := TouchArea {

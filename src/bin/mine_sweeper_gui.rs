@@ -2,8 +2,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use modern_minesweeper::controller::{
-    AboutDialog, GameConfig, GameDifficulty, GameState, MINE_VALUE, MainWindow, change_flag,
-    change_visibility, check_win, clear_grid, expand_selection, fill_grid, new_grid,
+    AboutDialog, GameConfig, GameDifficulty, GameState, MINE_VALUE, MainWindow, StateDialog,
+    change_flag, change_visibility, check_win, clear_grid, expand_selection, fill_grid, new_grid,
     vec2d_to_model_grid,
 };
 use slint::ComponentHandle;
@@ -52,11 +52,15 @@ fn main() -> Result<(), slint::PlatformError> {
     // Restart Button
     let main_window_weak = main_window.as_weak();
     let tiles_cloned = tiles.clone();
+    let game_config_cloned = game_config.clone();
     main_window.on_restart(move || {
         clear_grid(&mut *tiles_cloned.borrow_mut());
         let model = vec2d_to_model_grid(&*tiles_cloned.borrow());
         main_window_weak.unwrap().set_grid(model);
         main_window_weak.unwrap().set_state(GameState::Initial);
+        main_window_weak
+            .unwrap()
+            .set_flags(game_config_cloned.borrow().mine_count as i32);
     });
 
     // Expand Selection
@@ -70,6 +74,16 @@ fn main() -> Result<(), slint::PlatformError> {
             &mut *tiles_cloned.borrow_mut(),
         ) {
             main_window_weak.unwrap().set_state(GameState::Lose);
+            // State Dialog
+            if let Ok(state_dialog) = StateDialog::new() {
+                state_dialog.set_state(GameState::Lose);
+                state_dialog.set_font_size(font_size);
+                state_dialog.show().unwrap();
+                let state_dialog_weak = state_dialog.as_weak();
+                state_dialog.on_close(move || {
+                    state_dialog_weak.unwrap().hide().unwrap();
+                });
+            }
         }
         let model = vec2d_to_model_grid(&*tiles_cloned.borrow());
         main_window_weak.unwrap().set_grid(model);
@@ -90,6 +104,16 @@ fn main() -> Result<(), slint::PlatformError> {
         let tile = &tiles_ref[position.row as usize][position.col as usize];
         if tile.value == -1 {
             main_window_weak.unwrap().set_state(GameState::Lose);
+            // State Dialog
+            if let Ok(state_dialog) = StateDialog::new() {
+                state_dialog.set_state(GameState::Lose);
+                state_dialog.set_font_size(font_size);
+                state_dialog.show().unwrap();
+                let state_dialog_weak = state_dialog.as_weak();
+                state_dialog.on_close(move || {
+                    state_dialog_weak.unwrap().hide().unwrap();
+                });
+            }
         }
     });
 
@@ -100,6 +124,16 @@ fn main() -> Result<(), slint::PlatformError> {
     main_window.on_check_win(move || {
         if check_win(&*game_config_cloned.borrow(), &*tiles_cloned.borrow()) {
             main_window_weak.unwrap().set_state(GameState::Win);
+            // State Dialog
+            if let Ok(state_dialog) = StateDialog::new() {
+                state_dialog.set_state(GameState::Win);
+                state_dialog.set_font_size(font_size);
+                state_dialog.show().unwrap();
+                let state_dialog_weak = state_dialog.as_weak();
+                state_dialog.on_close(move || {
+                    state_dialog_weak.unwrap().hide().unwrap();
+                });
+            }
         }
     });
 

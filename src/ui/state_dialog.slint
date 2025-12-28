@@ -1,0 +1,29 @@
+import {
+    Button,
+    StandardButton,
+    VerticalBox,
+} from "std-widgets.slint";
+
+import { GameState } from "types.slint";
+
+export component StateDialog inherits Dialog {
+    title: state == GameState.Lose ? "Game Over" : state == GameState.Win ? "You Win" : "Unknown";
+    in property <GameState> state;
+    in property <length> font-size <=> self.default-font-size;
+    icon: @image-url("resources/icons/info.svg");
+    callback close();
+    VerticalBox {
+        Text {
+            text: "\{root.title}";
+            color: state == GameState.Lose ? brown : state == GameState.Win ? green : white;
+        }
+
+        StandardButton {
+            vertical-stretch: 0;
+            kind: StandardButtonKind.close;
+            clicked => {
+                root.close();
+            }
+        }
+    }
+}
