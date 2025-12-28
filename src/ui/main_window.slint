@@ -2,54 +2,17 @@ import {
     Button,
     VerticalBox,
     HorizontalBox,
-    StandardButton,
     ScrollView,
-    AboutSlint,
 } from "std-widgets.slint";
 
-export struct Position {
-    row:int,
-    col:int,
-}
-
-export struct Tile {
-    position: Position,
-    value: int, // -1 indicate there is a bomb
-    visible: bool,
-    flagged: bool,
-}
-
-export enum GameState {
-    Initial,
-    Normal,
-    Lose,
-    Win
-}
-
-export component AboutDialog inherits Dialog {
-    title: "About Slint";
-    icon: @image-url("resources/icons/info.svg");
-    callback close();
-    VerticalLayout {
-        AboutSlint {
-            vertical-stretch: 1.0;
-        }
-
-        StandardButton {
-            vertical-stretch: 0;
-            kind: StandardButtonKind.close;
-            clicked => {
-                root.close();
-            }
-        }
-    }
-}
+import { Position, Tile, GameState } from "types.slint";
 
 export component MainWindow inherits Window {
     // Custom Properties
     in property <int> mine_value;
     in property <[[Tile]]> grid;
     in property <GameState> state: Initial;
+    in-out property <int> flags;
 
     // callbacks
     callback first_move_occured(position: Position);
@@ -122,15 +85,18 @@ export component MainWindow inherits Window {
                                 if event.button == PointerEventButton.right && event.kind == PointerEventKind.up {
                                     if !button.visible && !button.flagged {
                                         button.flagged = true;
+                                        flags -= 1;
                                         change_flag(button.position,button.flagged);
                                     } else if !button.visible && button.flagged {
                                         button.flagged = false;
+                                        flags += 1;
                                         change_flag(button.position,button.flagged);
                                     }
                                     check_win()
                                 } else if event.button == PointerEventButton.left && event.kind == PointerEventKind.up {
                                     if button.flagged {
                                         button.flagged = false;
+                                        flags -= 1;
                                         change_flag(button.position,button.flagged);
                                     } else {
                                         if root.state == GameState.Initial {
@@ -159,6 +125,13 @@ export component MainWindow inherits Window {
                 horizontal-alignment: center;
                 vertical-alignment: center;
                 text: state == GameState.Lose ? "State: Game Over" : state == GameState.Win ? "State: You Won" : "State: Normal";
+            }
+
+            Text {
+                horizontal-alignment: left;
+                vertical-alignment: center;
+                text: root.flags;
+                color: red;
             }
 
             Button {

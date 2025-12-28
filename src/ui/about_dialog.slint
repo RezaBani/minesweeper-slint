@@ -1,0 +1,25 @@
+import {
+    Button,
+    StandardButton,
+    AboutSlint,
+    VerticalBox,
+} from "std-widgets.slint";
+
+export component AboutDialog inherits Dialog {
+    title: "About Slint";
+    icon: @image-url("resources/icons/info.svg");
+    callback close();
+    VerticalBox {
+        AboutSlint {
+            vertical-stretch: 1.0;
+        }
+
+        StandardButton {
+            vertical-stretch: 0;
+            kind: StandardButtonKind.close;
+            clicked => {
+                root.close();
+            }
+        }
+    }
+}

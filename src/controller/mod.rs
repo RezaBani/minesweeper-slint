@@ -7,9 +7,9 @@ pub const MINE_VALUE: i32 = -1;
 
 #[derive(Debug, Clone)]
 pub struct GameConfig {
-    row_count: usize,
-    col_count: usize,
-    bomb_count: usize,
+    pub row_count: usize,
+    pub col_count: usize,
+    pub mine_count: usize,
 }
 
 impl Default for GameConfig {
@@ -17,7 +17,7 @@ impl Default for GameConfig {
         Self {
             row_count: 10,
             col_count: 15,
-            bomb_count: 35,
+            mine_count: 35,
         }
     }
 }
@@ -71,7 +71,7 @@ pub fn fill_grid(game_config: &GameConfig, first_move: Position, tiles: &mut Vec
     // Getting the random bombs
     let mut rng = rand::rng();
     let length = (game_config.row_count * game_config.col_count) as usize;
-    let amount = game_config.bomb_count as usize;
+    let amount = game_config.mine_count as usize;
     let bombs_index = sample_weighted(&mut rng, length, weight, amount)
         .unwrap()
         .into_vec();
@@ -181,6 +181,16 @@ pub fn expand_selection(
     return None;
 }
 
+#[inline]
+pub fn change_flag(tiles: &mut Vec<Vec<Tile>>, position: &Position, flag: bool) {
+    tiles[position.row as usize][position.col as usize].flagged = flag;
+}
+
+#[inline]
+pub fn change_visibility(tiles: &mut Vec<Vec<Tile>>, position: &Position, visible: bool) {
+    tiles[position.row as usize][position.col as usize].visible = visible;
+}
+
 pub fn check_win(game_config: &GameConfig, tiles: &Vec<Vec<Tile>>) -> bool {
     let mut flags = 0;
     for row in tiles {
@@ -192,7 +202,7 @@ pub fn check_win(game_config: &GameConfig, tiles: &Vec<Vec<Tile>>) -> bool {
             }
         }
     }
-    game_config.bomb_count == flags as usize
+    game_config.mine_count == flags as usize
 }
 
 #[inline]

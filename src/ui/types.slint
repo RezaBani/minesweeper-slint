@@ -1,0 +1,18 @@
+export struct Position {
+    row:int,
+    col:int,
+}
+
+export struct Tile {
+    position: Position,
+    value: int, // -1 indicate there is a bomb
+    visible: bool,
+    flagged: bool,
+}
+
+export enum GameState {
+    Initial,
+    Normal,
+    Lose,
+    Win
+}

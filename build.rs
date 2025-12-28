@@ -7,14 +7,18 @@ fn main() -> Result<(), CompileError> {
         env::set_var("RUST_BACKTRACE", "1");
     }
 
-    let input_path = PathBuf::from("./src/ui");
+    // slint can only compile one file
+    let main_slint = "./src/ui/main.slint";
+    slint_build::compile(main_slint)?;
 
-    let input_files: Vec<_> = input_path
+    // Checking if any slint file has changed then invoke build process
+    let ui_dir_path = PathBuf::from("./src/ui");
+    let slint_files: Vec<_> = ui_dir_path
         .read_dir()
         .unwrap()
         .into_iter()
-        .filter_map(|fi| {
-            let path = fi.unwrap().path();
+        .filter_map(|path_info| {
+            let path = path_info.unwrap().path();
             if path.is_file() && path.to_string_lossy().ends_with(".slint") {
                 Some(path)
             } else {
@@ -22,11 +26,9 @@ fn main() -> Result<(), CompileError> {
             }
         })
         .collect();
-
-    for input_file in input_files {
-        slint_build::compile(&input_file)?;
-        println!("cargo::rerun-if-changed={}", input_file.to_string_lossy());
+    for slint_file in slint_files {
+        println!("cargo::rerun-if-changed={}", slint_file.to_string_lossy());
     }
-    println!("cargo::rerun-if-changed=Cargo.toml");
+
     Ok(())
 }
