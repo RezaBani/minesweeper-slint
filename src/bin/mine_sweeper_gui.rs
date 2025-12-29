@@ -16,7 +16,8 @@ fn main() -> Result<(), slint::PlatformError> {
     let main_window = MainWindow::new()?;
 
     // Global Configs
-    let game_config = Rc::new(RefCell::new(GameConfig::new(GameDifficulty::Medium)));
+    let level = Rc::new(RefCell::new(GameDifficulty::Medium));
+    let game_config = Rc::new(RefCell::new(GameConfig::new(*level.borrow())));
 
     // Empty Grid
     let tiles = Rc::new(RefCell::new(new_grid(&*game_config.borrow())));
@@ -27,6 +28,8 @@ fn main() -> Result<(), slint::PlatformError> {
     main_window.set_mine_value(MINE_VALUE);
     main_window.set_flags(game_config.borrow().mine_count as i32);
     main_window.set_font_size(font_size);
+    main_window.set_levels(GameDifficulty::create_model());
+    main_window.invoke_initial_level((*level.borrow()).into());
 
     // First Move Occured
     let main_window_weak = main_window.as_weak();
@@ -61,6 +64,7 @@ fn main() -> Result<(), slint::PlatformError> {
         main_window_weak
             .unwrap()
             .set_flags(game_config_cloned.borrow().mine_count as i32);
+        main_window_weak.unwrap().invoke_reset_timer();
     });
 
     // Expand Selection
@@ -141,10 +145,11 @@ fn main() -> Result<(), slint::PlatformError> {
     let game_config_cloned = game_config.clone();
     let tiles_cloned = tiles.clone();
     let main_window_weak = main_window.as_weak();
-    main_window.on_difficulty_changed(move || {
+    main_window.on_level_changed(move |index| {
+        level.borrow_mut().clone_from(&index.into());
         game_config_cloned
             .borrow_mut()
-            .clone_from(&GameConfig::new(main_window_weak.unwrap().get_difficulty()));
+            .clone_from(&GameConfig::new(*level.borrow()));
         tiles_cloned
             .borrow_mut()
             .clone_from(&new_grid(&*game_config_cloned.borrow()));

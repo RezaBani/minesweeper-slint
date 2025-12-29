@@ -1,6 +1,6 @@
 [package]
 name = "modern-minesweeper"
-version = "0.3.0"
+version = "0.3.1"
 edition = "2024"
 description = "A Simple minesweeper game built with Rust + Slint"
 homepage = "https://github.com/RezaBani/modern-minesweeper"
@@ -18,12 +18,9 @@ name = "MineSweeper"
 path = "src/bin/mine_sweeper_gui.rs"
 
 [dependencies]
+meta-enum = "0.1.0"
 rand = "0.9.2"
-slint = { version = "1.14.1", default-features = false, features = [
-  "backend-winit",
-  "compat-1-2",
-  "renderer-skia"
-] }
+slint = "1.14.1"
 
 [build-dependencies]
 slint-build = "1.14.1"

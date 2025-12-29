@@ -3,9 +3,10 @@ import {
     VerticalBox,
     HorizontalBox,
     ScrollView,
+    ComboBox,
 } from "std-widgets.slint";
 
-import { Position, Tile, GameState, GameDifficulty } from "types.slint";
+import { Position, Tile, GameState } from "types.slint";
 
 export component MainWindow inherits Window {
     // Custom Properties
@@ -13,7 +14,8 @@ export component MainWindow inherits Window {
     in property <[[Tile]]> grid;
     in property <GameState> state: Initial;
     in property <length> font-size <=> self.default-font-size;
-    in-out property <GameDifficulty> difficulty: GameDifficulty.Medium;
+    in property <[string]> levels;
+    property <bool> m_initial_level_set:false;
     in-out property <int> flags;
 
     // callbacks
@@ -25,10 +27,25 @@ export component MainWindow inherits Window {
     callback restart();
     callback close();
     callback about();
-    callback difficulty_changed();
+    callback level_changed(int);
 
     // public functions
-    public pure function tile_to_img(tile: Tile) -> image {
+    // For Setting Initial Value of ComboBox
+    public function initial_level(level: int) {
+        levels_combo.current-value = levels[level];
+        if !m_initial_level_set {
+            m_initial_level_set = true;
+        } else {
+            debug("Initial Value for ComboBox Must set only once");
+        }
+    }
+
+    public function reset_timer() {
+        timer.time_elapsed = 0;
+    }
+
+    // Setting img to tile
+    pure function tile_to_img(tile: Tile) -> image {
         if tile.flagged {
             return @image-url("resources/icons/flag.svg");
         } else if tile.visible {
@@ -61,7 +78,7 @@ export component MainWindow inherits Window {
     }
 
     title: "MineSweeper";
-    icon: @image-url("resources/icons/minesweeper.svg");
+    icon: @image-url("resources/icons/icon.svg");
     preferred-width: 1280px;
     preferred-height: 720px;
 
@@ -103,7 +120,6 @@ export component MainWindow inherits Window {
                                     } else {
                                         if root.state == GameState.Initial {
                                             first_move_occured(button.position);
-                                            timer.time_elapsed = 0;
                                         }
                                         button.visible = true;
                                         change_visibility(button.position, true);
@@ -146,63 +162,16 @@ export component MainWindow inherits Window {
                 color: red;
             }
 
-            easy_btn := Rectangle {
-                border-width: 4px;
-                border-radius: 12px;
-                border-color: difficulty == GameDifficulty.Easy ? #95959f : Colors.transparent;
-                Text {
-                    text: "Easy";
-                    color: easy_btn_area.enabled ? timer_text.color : #95959f;
-                }
-
-                easy_btn_area := TouchArea {
-                    enabled: root.state == GameState.Initial;
-                    clicked => {
-                        difficulty = GameDifficulty.Easy;
-                        difficulty_changed();
-                    }
-                }
-            }
-
-            med_btn := Rectangle {
-                border-width: 4px;
-                border-radius: 12px;
-                border-color: difficulty == GameDifficulty.Medium ? #95959f : Colors.transparent;
-                Text {
-                    text: "Medium";
-                    color: med_btn_area.enabled ? timer_text.color : #95959f;
-                }
-
-                med_btn_area := TouchArea {
-                    enabled: root.state == GameState.Initial;
-                    clicked => {
-                        difficulty = GameDifficulty.Medium;
-                        difficulty_changed();
-                    }
-                }
-            }
-
-            hard_btn := Rectangle {
-                border-width: 4px;
-                border-radius: 12px;
-                border-color: difficulty == GameDifficulty.Hard ? #95959f : Colors.transparent;
-                Text {
-                    text: "Hard";
-                    color: hard_btn_area.enabled ? timer_text.color : #95959f;
-                }
-
-                hard_btn_area := TouchArea {
-                    enabled: root.state == GameState.Initial;
-                    clicked => {
-                        difficulty = GameDifficulty.Hard;
-                        difficulty_changed();
-                    }
+            levels_combo := ComboBox {
+                enabled: root.state == GameState.Initial;
+                model: levels;
+                selected() => {
+                    level_changed(self.current-index);
                 }
             }
 
             Button {
                 icon: @image-url("resources/icons/reset.svg");
-                icon-size: 28px;
                 text: "Restart";
                 clicked => {
                     root.restart();
@@ -211,7 +180,6 @@ export component MainWindow inherits Window {
 
             Button {
                 icon: @image-url("resources/icons/info.svg");
-                icon-size: 28px;
                 text: "About";
                 clicked => {
                     about();
@@ -220,7 +188,6 @@ export component MainWindow inherits Window {
 
             Button {
                 icon: @image-url("resources/icons/exit.svg");
-                icon-size: 28px;
                 text: "Quit";
                 clicked => {
                     root.close();

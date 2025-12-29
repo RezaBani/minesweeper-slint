@@ -1,7 +1,8 @@
 slint::include_modules!();
 
+use meta_enum::{MetaEnum, ParseMetaEnumError};
 use rand::{self, seq::index::sample_weighted};
-use slint::{Model as _, ModelRc, VecModel};
+use slint::{Model as _, ModelRc, SharedString, VecModel};
 
 pub const MINE_VALUE: i32 = -1;
 
@@ -10,6 +11,23 @@ pub struct GameConfig {
     pub row_count: usize,
     pub col_count: usize,
     pub mine_count: usize,
+}
+
+#[derive(Debug, Clone, Copy, MetaEnum)]
+pub enum GameDifficulty {
+    Easy,
+    Medium,
+    Hard,
+}
+
+impl GameDifficulty {
+    pub fn create_model() -> ModelRc<SharedString> {
+        let model: Vec<_> = GameDifficulty::keys()
+            .into_iter()
+            .map(|key| key.into())
+            .collect();
+        VecModel::from_slice(&model)
+    }
 }
 
 impl GameConfig {
