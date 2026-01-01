@@ -5,6 +5,7 @@ use slint_build::CompileError;
 fn main() -> Result<(), CompileError> {
     unsafe {
         env::set_var("RUST_BACKTRACE", "1");
+        env::set_var("SLINT_BACKEND", "winit-software");
     }
 
     // slint can only compile one file
