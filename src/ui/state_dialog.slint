@@ -2,6 +2,7 @@ import {
     Button,
     StandardButton,
     VerticalBox,
+    HorizontalBox,
 } from "std-widgets.slint";
 
 import { GameState } from "types.slint";
@@ -14,16 +15,34 @@ export component StateDialog inherits Dialog {
     callback close();
     VerticalBox {
         Text {
+            horizontal-alignment: center;
+            vertical-alignment: center;
+            vertical-stretch: 0.0;
             font-size: text-font-size;
             text: "\{root.title}";
             color: state == GameState.Lose ? brown : state == GameState.Win ? green : white;
         }
 
-        StandardButton {
-            vertical-stretch: 0;
-            kind: StandardButtonKind.close;
-            clicked => {
-                root.close();
+        Window {
+            vertical-stretch: 1.0;
+        }
+
+        HorizontalBox {
+            vertical-stretch: 0.0;
+            Window {
+                horizontal-stretch: 1.0;
+            }
+
+            StandardButton {
+                horizontal-stretch: 0.0;
+                kind: StandardButtonKind.close;
+                clicked => {
+                    root.close();
+                }
+            }
+
+            Window {
+                horizontal-stretch: 1.0;
             }
         }
     }

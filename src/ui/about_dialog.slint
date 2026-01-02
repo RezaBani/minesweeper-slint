@@ -3,6 +3,7 @@ import {
     StandardButton,
     AboutSlint,
     VerticalBox,
+    HorizontalBox,
 } from "std-widgets.slint";
 
 export component AboutDialog inherits Dialog {
@@ -15,19 +16,33 @@ export component AboutDialog inherits Dialog {
     callback close();
     VerticalBox {
         Text {
+            horizontal-alignment: center;
+            vertical-alignment: center;
+            vertical-stretch: 0.0;
             font-size: text-font-size;
-            text: "Version: \{version}\nHomePage: \{home_page}\nLicense: \{license}";
+            text: "Version: \{version}\n\nLicense: \{license}\n\nHomePage: \{home_page}";
         }
 
         AboutSlint {
             vertical-stretch: 1.0;
         }
 
-        StandardButton {
-            vertical-stretch: 0;
-            kind: StandardButtonKind.close;
-            clicked => {
-                root.close();
+        HorizontalBox {
+            vertical-stretch: 0.0;
+            Window {
+                horizontal-stretch: 1.0;
+            }
+
+            StandardButton {
+                horizontal-stretch: 0.0;
+                kind: StandardButtonKind.close;
+                clicked => {
+                    root.close();
+                }
+            }
+
+            Window {
+                horizontal-stretch: 1.0;
             }
         }
     }

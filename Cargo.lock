@@ -2109,7 +2109,7 @@ dependencies = [
  "js-sys",
  "log",
  "wasm-bindgen",
- "windows-core 0.58.0",
+ "windows-core 0.62.2",
 ]
 
 [[package]]
@@ -2646,18 +2646,18 @@ dependencies = [
 
 [[package]]
 name = "meta-enum"
-version = "0.1.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "17b25ac0a6bdaa9f4447471f9d7cb74216fecba27d9533b027b47094cd24821c"
+checksum = "11c6f7f8245f097ff11a79637d0cf2bd9c6c809ac6b524f23d96d2d80143cf1e"
 dependencies = [
  "meta-enum-derive",
 ]
 
 [[package]]
 name = "meta-enum-derive"
-version = "0.1.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f2fe3983978327c36d361721cc3978bd46b5c53f18f046beeb22c158829dfa2d"
+checksum = "6e6102f87c9bb5e63498642ed0bcaa83e2c0cfca12f7879e2a11f65b7513ee14"
 dependencies = [
  "quote",
  "syn",
